@@ -1,20 +1,18 @@
 <?php 
-if (isset($_POST["todo"])) {
+include ("./db.php");
+
+if (isset($_POST["submit"])) {
     $todo = $_POST["todo"];
+
+    $query = "INSERT INTO tasks (task) VALUES ('$todo')";
+    $result = mysqli_query($connection, $query);
+
+    if (!$result) {
+        die("query failed");
+    }
 }
 
-$dbhost = "db";
-$dbname = "tododb";
-$dbuser = "root";
-$dbpass = "lionPass";
 
-$connection = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
-
-if ($connection->connect_error) {
-    echo "connection unsuccesful";
-}else {
-    echo "connected succesfully";
-}
 ?>
 
 <!DOCTYPE html>
