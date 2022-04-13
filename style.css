@@ -1,0 +1,13 @@
+body {
+  background-color: rgb(116, 116, 201);
+}
+
+.todoitem {
+  height: 10rem;
+  width: 10rem;
+  background-color: white;
+}
+
+.deletebutton {
+  content: "delete";
+}
