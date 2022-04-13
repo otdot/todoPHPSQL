@@ -68,6 +68,11 @@
                 <input hidden value="<?php echo $row2['id']?>" name="delete"></input>
                 <input class="deletebutton" value="delete" name="deletebutton" type="submit">
             </form>
+            <form action="index.php" method="POST">
+                <input hidden value="<?php echo $row2['id']?>" name="update">
+                <input type="text">
+                <input class="savebutton" type="submit">
+            </form>
         </div>
         <?php
 		} ?>
