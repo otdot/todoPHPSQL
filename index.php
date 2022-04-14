@@ -1,15 +1,26 @@
 <?php 
-    include ("./db.php");
+    $dbhost = "db";
+    $dbname = "tododb";
+    $dbuser = "root";
+    $dbpass = "lionPass";
+    $connection = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
 
     $alldataquery = "SELECT * FROM tasks";
     $alldata = mysqli_query($connection, $alldataquery);
     if (!$alldata) {
         die("query failed");
     }
+
+    function sanitazeInput($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
     
 
-    if (isset($_POST["submit2"])) {
-        $todo = $_POST["todo"];
+    if (isset($_POST["insertData"])) {
+        $todo = sanitazeInput($_POST["todo"]);
         $query = "INSERT INTO tasks (task) VALUES ('$todo')";
         $result = mysqli_query($connection, $query);
 
@@ -26,7 +37,7 @@
     }
 
     if (isset($_POST["deletebutton"])) {
-        $id = $_POST['delete'];
+        $id = sanitazeInput($_POST['delete']);
 
         $query = "DELETE FROM tasks WHERE id = $id";
         $result = mysqli_query($connection, $query);
@@ -58,7 +69,7 @@
     <h1>Add and delete tasks</h1>
     <form class="todo-input" action="index.php" method="POST">
         <input id="todo" name="todo" type="text">
-        <input class ="add-button"name="submit2" type="submit" value="ADD">
+        <input class ="add-button"name="insertData" type="submit" value="ADD">
     </form>
     <?php
     while ($row2 = mysqli_fetch_assoc($alldata)) { ?>
