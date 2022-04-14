@@ -98,6 +98,8 @@ h1 {
 }
 
 .deletebutton {
+  text-decoration: none;
+  text-align: center;
   color: #fff;
   background-color: #20581cde;
   border: none;

@@ -21,6 +21,7 @@
 
     if (isset($_POST["insertData"])) {
         $todo = sanitazeInput($_POST["todo"]);
+        $todo = mysqli_real_escape_string($connection, $_POST['todo']);
         $query = "INSERT INTO tasks (task) VALUES ('$todo')";
         $result = mysqli_query($connection, $query);
 
@@ -36,8 +37,27 @@
 
     }
 
-    if (isset($_POST["deletebutton"])) {
-        $id = sanitazeInput($_POST['delete']);
+    // if (isset($_POST["deletebutton"])) {
+    //     $id = sanitazeInput($_POST['delete']);
+
+    //     $query = "DELETE FROM tasks WHERE id = $id";
+    //     $result = mysqli_query($connection, $query);
+
+    //     if (!$result) {
+    //         die("query failed");
+    //     }
+
+    //     $alldataquery = "SELECT * FROM tasks";
+    //     $alldata = mysqli_query($connection, $alldataquery);
+    //     if (!$alldata) {
+    //         die("query failed");
+    //     }
+
+    // }
+
+
+    if (isset($_GET["deleteId"])) {
+        $id = sanitazeInput($_GET['deleteId']);
 
         $query = "DELETE FROM tasks WHERE id = $id";
         $result = mysqli_query($connection, $query);
@@ -75,10 +95,7 @@
     while ($row2 = mysqli_fetch_assoc($alldata)) { ?>
         <div class="todoitem">
             <p type="text" data-id=<?php echo $row2['id']?>><?= $row2['task'] ?></p>
-            <form action="index.php" method="POST">
-                <input hidden value="<?php echo $row2['id']?>" name="delete"></input>
-                <input class="deletebutton" value="X" name="deletebutton" type="submit">
-            </form>
+            <a class="deletebutton" href="index.php?deleteId=<?= $row2['id']?>">X</a>
             <!-- <form action="index.php" method="POST">
                 <input hidden value="<?php echo $row2['id']?>" name="update">
                 <input type="text">
