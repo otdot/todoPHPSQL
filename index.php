@@ -54,11 +54,11 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="wrapper">
     <h1>Add and delete tasks</h1>
-    <form action="index.php" method="POST">
-        <label for="todo">todo</label>
+    <form class="todo-input" action="index.php" method="POST">
         <input id="todo" name="todo" type="text">
-        <input name="submit2" type="submit" value="add todo">
+        <input class ="add-button"name="submit2" type="submit" value="ADD">
     </form>
     <?php
     while ($row2 = mysqli_fetch_assoc($alldata)) { ?>
@@ -66,15 +66,17 @@
             <p type="text" data-id=<?php echo $row2['id']?>><?= $row2['task'] ?></p>
             <form action="index.php" method="POST">
                 <input hidden value="<?php echo $row2['id']?>" name="delete"></input>
-                <input class="deletebutton" value="delete" name="deletebutton" type="submit">
+                <input class="deletebutton" value="X" name="deletebutton" type="submit">
             </form>
-            <form action="index.php" method="POST">
+            <!-- <form action="index.php" method="POST">
                 <input hidden value="<?php echo $row2['id']?>" name="update">
                 <input type="text">
                 <input class="savebutton" type="submit">
-            </form>
+            </form> -->
         </div>
         <?php
 		} ?>
+
+</div>
 </body>
 </html>
