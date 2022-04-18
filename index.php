@@ -1,3 +1,4 @@
+
 <?php 
     $dbhost = "db";
     $dbname = "tododb";
@@ -55,6 +56,30 @@
 
     // }
 
+    if(isset($_POST['submit'])) {
+        $newItem = $_POST['taskUpdate'];
+        $id = $_POST["update"];
+        
+        //Updating the database 
+        
+        $toUpdate = "UPDATE tasks SET ";
+        $toUpdate .= "task = '$newItem' ";
+        $toUpdate .= "WHERE id = $id";
+
+        $result = mysqli_query($connection, $toUpdate);
+
+        if (!$result) {
+            die("query failed");
+        }
+
+        $alldataquery = "SELECT * FROM tasks";
+        $alldata = mysqli_query($connection, $alldataquery);
+        if (!$alldata) {
+            die("query failed");
+        }
+
+    }
+
 
     if (isset($_GET["deleteId"])) {
         $id = sanitazeInput($_GET['deleteId']);
@@ -96,14 +121,14 @@
         <div class="todoitem">
             <p type="text" data-id=<?php echo $row2['id']?>><?= $row2['task'] ?></p>
             <a class="deletebutton" href="index.php?deleteId=<?= $row2['id']?>">X</a>
-            <!-- <form action="index.php" method="POST">
+            <form action="index.php" method="POST">
                 <input hidden value="<?php echo $row2['id']?>" name="update">
-                <input type="text">
-                <input class="savebutton" type="submit">
-            </form> -->
+                <input type="text" name="taskUpdate" placeholder="Update Task">
+                <input class="update" name="submit" type="submit">
+            </form>
         </div>
         <?php
-		} ?>
+        } ?>
 
 </div>
 </body>
