@@ -22,7 +22,7 @@
 
     if (isset($_POST["insertData"])) {
         $todo = sanitazeInput($_POST["todo"]);
-        $todo = mysqli_real_escape_string($connection, $_POST['todo']);
+        $todo = mysqli_real_escape_string($connection, $todo);
         $query = "INSERT INTO tasks (task) VALUES ('$todo')";
         $result = mysqli_query($connection, $query);
 
@@ -38,26 +38,10 @@
 
     }
 
-    // if (isset($_POST["deletebutton"])) {
-    //     $id = sanitazeInput($_POST['delete']);
-
-    //     $query = "DELETE FROM tasks WHERE id = $id";
-    //     $result = mysqli_query($connection, $query);
-
-    //     if (!$result) {
-    //         die("query failed");
-    //     }
-
-    //     $alldataquery = "SELECT * FROM tasks";
-    //     $alldata = mysqli_query($connection, $alldataquery);
-    //     if (!$alldata) {
-    //         die("query failed");
-    //     }
-
-    // }
 
     if(isset($_POST['submit'])) {
-        $newItem = $_POST['taskUpdate'];
+        $newItem = sanitazeInput($_POST['taskUpdate']);
+        $newItem = mysqli_real_escape_string($connection, $newItem);
         $id = $_POST["update"];
         
         //Updating the database 
@@ -106,8 +90,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Todo PHP</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="wrapper">
@@ -119,17 +103,17 @@
     <?php
     while ($row2 = mysqli_fetch_assoc($alldata)) { ?>
         <div class="todoitem">
-            <p type="text" data-id=<?php echo $row2['id']?>><?= $row2['task'] ?></p>
-            <a class="deletebutton" href="index.php?deleteId=<?= $row2['id']?>">X</a>
-            <form action="index.php" method="POST">
+            <p class="todotext" type="text" data-id=<?php echo $row2['id']?>><?= $row2['task'] ?></p>
+            <a class="deletebutton" href="index.php?deleteId=<?= $row2['id']?>"><i class="fa-solid fa-trash-can fa-1x"></i></a>
+            <form class="updateForm" action="index.php" method="POST">
                 <input hidden value="<?php echo $row2['id']?>" name="update">
-                <input type="text" name="taskUpdate" placeholder="Update Task">
-                <input class="update" name="submit" type="submit">
+                <input class="updateInput" type="text" name="taskUpdate" placeholder="Update Task">
+                <input class="updateSubmit" value="" name="submit" type="submit">
             </form>
         </div>
         <?php
         } ?>
-
-</div>
+    </div>
+    <script src="https://kit.fontawesome.com/200484ca2d.js" crossorigin="anonymous"></script>
 </body>
 </html>
